@@ -43,9 +43,27 @@ const removeSaleById = async (id) => {
   return salesModel.deleteById(id);
 };
 
+const changeSaleById = async (id, sales) => {
+  const hasProduct = await hasProductInDb(sales);
+  if (hasProduct) return hasProduct;
+
+  const hasSale = await salesModel.findSaleById(id);
+  if (hasSale.length < 1) return { type: 404, message: 'Sale not found' };
+
+  await salesModel.deleteSalesProducts(id);
+  await salesModel.insert(sales, id);
+
+  return {
+    type: null,
+    message: {
+    saleId: id, itensUpdate: sales,
+  } };
+};
+
 module.exports = {
   insertSales,
   getSales,
   getSaleById,
   removeSaleById,
+  changeSaleById,
 };

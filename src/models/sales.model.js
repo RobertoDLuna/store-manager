@@ -49,10 +49,16 @@ const deleteById = async (id) => connection.execute(
     [id],
 );
 
+const deleteSalesProducts = async (id) => connection.execute(
+  'DELETE FROM StoreManager.sales_products WHERE sale_id= (?)',
+  [id],
+);
+
 module.exports = {
   insert,
   insertNewSale,
   findAllSales,
   findSaleById,
   deleteById,
+  deleteSalesProducts,
 };
