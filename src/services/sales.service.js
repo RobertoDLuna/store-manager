@@ -35,8 +35,17 @@ const getSaleById = async (id) => {
   return { type: null, message: result };
 };
 
+const removeSaleById = async (id) => {
+  const result = await salesModel.findSaleById(id);
+
+  if (result.length < 1) return { type: 404, message: 'Sale not found' };
+
+  return salesModel.deleteById(id);
+};
+
 module.exports = {
   insertSales,
   getSales,
   getSaleById,
+  removeSaleById,
 };
