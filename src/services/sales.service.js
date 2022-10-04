@@ -12,15 +12,14 @@ const hasProductInDb = async (sales) => {
 };
 
 const insertSales = async (sales) => {
-  console.log('teste');
+  console.log('service sales');
   const result = await hasProductInDb(sales);
-  console.log(result);
   if (result) return result;
 
-  const newSaleId = await salesModel.insertNewSale(sales);
+  const newSaleId = await salesModel.insertNewSale();
   await salesModel.insert(sales, newSaleId);
 
-  return { type: null, message: { id: newSaleId, itemSold: sales } };
+  return { type: null, message: { id: newSaleId, itemsSold: sales } }; // precisa retornar certo
 };
 
 const getSales = async () => {

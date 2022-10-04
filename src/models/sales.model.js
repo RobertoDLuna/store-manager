@@ -2,18 +2,21 @@ const connection = require('./db/connection');
 
 const insertNewSale = async () => {
   const [{ insertId }] = await connection.execute(
-    'INSERT INTO StorageManager.sales (date) VALUE (NOW())',
+    'INSERT INTO StoreManager.sales (date) VALUE (NOW())',
   );
   return insertId;
 };
 
 const insert = async (sales, newSaleId) => {
+  // const saleId = await insertNewSale();
+
   await Promise.all(sales.map(async (sale) => {
     await connection.execute(
-      'INSERT INTO storeManager.sales_products (sale_id, product_id, quantity) VALUES (?,?,?)',
+      'INSERT INTO StoreManager.sales_products (sale_id,product_id, quantity) VALUES (?, ?, ?)',
       [newSaleId, sale.productId, sale.quantity],
     );
   }));
+
   return newSaleId;
 };
 
@@ -21,7 +24,8 @@ const findAllSales = async () => {
   const [result] = await connection.execute(
     `SELECT sa.id as saleId, sa.date, sp.product_id as productId, sp.quantity
     FROM StoreManager.sales as sa
-    INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id;`,
+    INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id
+    ORDER BY sa.id ASC, sp.product_id ASC;`,
   );
 
   console.log(result);
@@ -33,7 +37,7 @@ const findSaleById = async (id) => {
     `SELECT sa.date, sp.product_id as productId, sp.quantity
     FROM StoreManager.sales as sa
     INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id
-    WHERE sa.id = (?);`,
+    WHERE sa.id = (?) ORDER BY sa.id ASC, sp.product_id ASC;`,
     [id],
   );
 

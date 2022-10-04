@@ -12,7 +12,7 @@ const findProductById = async (id) => {
     'SELECT * FROM StoreManager.products WHERE id = ?',
     [id],
   );
-  console.log(result);
+
   return result;
 };
 
@@ -21,17 +21,24 @@ const insert = async (name) => {
     'INSERT INTO StoreManager.products (name) VALUE (?)',
     [name],
   );
+
   return result;
 };
 
 const updateById = async (id, name) => connection.execute(
     'UPDATE StoreManager.products SET name = (?) WHERE id = (?)',
     [name, id],
-  );
+);
+
+const deleteById = async (id) => connection.execute(
+    'DELETE FROM StoreManager.products WHERE id = (?)',
+    [id],
+);
 
 module.exports = {
   findAllProducts,
   findProductById,
   insert,
   updateById,
+  deleteById,
 };
