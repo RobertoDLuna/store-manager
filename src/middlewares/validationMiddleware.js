@@ -9,6 +9,10 @@ const validationName = (req, res, next) => {
   next();
 };
 
+const validateProductId = (req, res, next) => {
+  const sales = req.body;
+};
+
 module.exports = {
   validationName,
 };

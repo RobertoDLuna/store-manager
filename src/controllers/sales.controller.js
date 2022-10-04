@@ -6,7 +6,7 @@ const addSales = async (req, res) => {
 
   const { type, message } = await salesService.insertSales(sales);
 
-  if (type) return res.status(type).json(message);
+  if (type) return res.status(type).json({ message });
 
   res.status(201).json(message);
 };
