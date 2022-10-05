@@ -62,4 +62,18 @@ describe('teste do controller do sales', function () {
 
     expect(res.status.calledWith(204)).to.be.true;
   });
+
+  it('teste da função deleteSaleById', async function () {
+    const res = {};
+    const req = { params: { id: 4} };
+    res.status = sinon.stub().returns(res);
+    res.end = sinon.stub().returns();
+
+    sinon.stub(salesService, 'removeSaleById').resolves({ type: null, message: {id: 4, name: 'Martelo de Bang'} });
+
+    await salesController.deleteSaleById(req, res);
+
+     expect(res.status.calledWith(204)).to.be.true;
+
+  });
 })
