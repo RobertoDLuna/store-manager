@@ -56,7 +56,7 @@ const changeSaleById = async (id, sales) => {
   return {
     type: null,
     message: {
-    saleId: id, itensUpdate: sales,
+    saleId: id, itemsUpdated: sales,
   } };
 };
 
